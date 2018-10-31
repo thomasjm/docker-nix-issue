@@ -11,12 +11,15 @@ let
     sha256 = "0yy24sjrvrxh3x0j0ha2izysqzxad6gp204ckikijw1dnw1hk519";
   };
 
-  ijavascript = callPackage ./ijavascript {};
-
 in
-    buildImage {
-      name = "nix-docker-issue";
-      contents = ijavascript.ijavascript;
-      fromImage = ubuntu;
-      tag = "latest";
-    }
+
+rec {
+  ijavascript = (callPackage ./ijavascript {}).ijavascript;
+
+  image = buildImage {
+    name = "nix-docker-issue";
+    contents = ijavascript;
+    fromImage = ubuntu;
+    tag = "latest";
+  };
+}
